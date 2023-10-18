@@ -9,6 +9,7 @@ from settings import (
     exit,
     pygame,
 )
+from snake import Snake
 
 
 class Main:
@@ -29,7 +30,10 @@ class Main:
             for row in range(ROWS)
         ]
 
+        self.snake = Snake()
+
     def draw_bg(self):
+        self.display_surface.fill(LIGHT_GREEN)
         for rect in self.bg_rectangles:
             pygame.draw.rect(self.display_surface, DARK_GREEN, rect)
 
@@ -39,8 +43,8 @@ class Main:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
-            self.display_surface.fill(LIGHT_GREEN)
             self.draw_bg()
+            self.snake.draw()
             pygame.display.update()
 
 
