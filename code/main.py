@@ -1,3 +1,4 @@
+from apple import Apple
 from settings import (
     CELL_SIZE,
     COLS,
@@ -13,7 +14,7 @@ from snake import Snake
 
 
 class Main:
-    def __init__(self):
+    def __init__(self) -> None:
         # general
         pygame.init()
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -31,6 +32,7 @@ class Main:
         ]
 
         self.snake = Snake()
+        self.apple = Apple(self.snake)
 
     def draw_bg(self):
         self.display_surface.fill(LIGHT_GREEN)
@@ -45,6 +47,7 @@ class Main:
                     exit()
             self.draw_bg()
             self.snake.draw()
+            self.apple.draw()
             pygame.display.update()
 
 
