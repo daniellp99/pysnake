@@ -54,6 +54,11 @@ class Main:
             if keys[key]:
                 self.snake.direction = direction
 
+    def eat_apple(self):
+        if self.snake.body[0] == self.apple.pos:
+            self.snake.has_eaten = True
+            self.apple.set_pos()
+
     def run(self):
         while True:
             for event in pygame.event.get():
@@ -65,6 +70,7 @@ class Main:
                     self.snake.move()
             # move
             self.input()
+            self.eat_apple()
             # drawing
             self.draw_bg()
             self.snake.draw()
