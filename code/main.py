@@ -45,10 +45,18 @@ class Main:
     def input(self):
         keys = pygame.key.get_pressed()
         mapping_direction = {
-            pygame.K_RIGHT: pygame.Vector2(1, 0),
-            pygame.K_LEFT: pygame.Vector2(-1, 0),
-            pygame.K_UP: pygame.Vector2(0, -1),
-            pygame.K_DOWN: pygame.Vector2(0, 1),
+            pygame.K_RIGHT: pygame.Vector2(1, 0)
+            if self.snake.direction.x != -1
+            else self.snake.direction,
+            pygame.K_LEFT: pygame.Vector2(-1, 0)
+            if self.snake.direction.x != 1
+            else self.snake.direction,
+            pygame.K_UP: pygame.Vector2(0, -1)
+            if self.snake.direction.y != 1
+            else self.snake.direction,
+            pygame.K_DOWN: pygame.Vector2(0, 1)
+            if self.snake.direction.y != -1
+            else self.snake.direction,
         }
         for key, direction in mapping_direction.items():
             if keys[key]:
