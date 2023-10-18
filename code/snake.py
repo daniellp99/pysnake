@@ -13,6 +13,13 @@ class Snake:
         self.body = [
             pygame.Vector2(START_COL - col, START_ROW) for col in range(START_LENGTH)
         ]
+        self.direction = pygame.Vector2(1, 0)
+
+    def move(self):
+        body_copy = self.body[:-1]
+        new_head = body_copy[0] + self.direction
+        body_copy.insert(0, new_head)
+        self.body = body_copy[:]
 
     def draw(self):
         for point in self.body:

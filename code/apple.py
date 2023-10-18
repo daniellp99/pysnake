@@ -11,7 +11,7 @@ from snake import Snake
 
 class Apple:
     def __init__(self, snake: Snake) -> None:
-        self.pos = pygame.Vector2(5, 8)
+        self.pos = pygame.Vector2()
         self.display_surface = pygame.display.get_surface()
         self.snake = snake
         self.set_pos()
