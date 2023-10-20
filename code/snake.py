@@ -16,6 +16,12 @@ class Snake:
         self.direction = pygame.Vector2(1, 0)
         self.has_eaten = False
 
+    def reset(self):
+        self.body = [
+            pygame.Vector2(START_COL - col, START_ROW) for col in range(START_LENGTH)
+        ]
+        self.direction = pygame.Vector2(1, 0)
+
     def move(self):
         if not self.has_eaten:
             body_copy = self.body[:-1]
