@@ -1,4 +1,6 @@
+from math import sin
 from random import choice
+from settings import join
 
 from settings import (
     CELL_SIZE,
@@ -15,6 +17,9 @@ class Apple:
         self.display_surface = pygame.display.get_surface()
         self.snake = snake
         self.set_pos()
+        self.surface_image = pygame.image.load(
+            join("graphics", "apple.png")
+        ).convert_alpha()
 
     def set_pos(self):
         available_pos = [
@@ -26,9 +31,12 @@ class Apple:
         self.pos = choice(available_pos)
 
     def draw(self):
-        rect = (
-            pygame.Rect(
-                self.pos.x * CELL_SIZE, self.pos.y * CELL_SIZE, CELL_SIZE, CELL_SIZE
-            ),
+        scale = 1 + sin(pygame.time.get_ticks() / 500) / 3
+        self.scaled_surface = pygame.transform.smoothscale_by(self.surface_image, scale)
+        self.scaled_rect = self.scaled_surface.get_rect(
+            center=(
+                self.pos.x * CELL_SIZE + CELL_SIZE / 2,
+                self.pos.y * CELL_SIZE + CELL_SIZE / 2,
+            )
         )
-        pygame.draw.rect(self.display_surface, "blue", rect)
+        self.display_surface.blit(self.scaled_surface, self.scaled_rect)
