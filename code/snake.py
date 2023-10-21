@@ -88,6 +88,35 @@ class Snake:
                     self.draw_data.append((self.surfaces["body_horizontal"], rect))
                 elif last_part.y == next_part.y:
                     self.draw_data.append((self.surfaces["body_vertical"], rect))
+                else:
+                    if (
+                        last_part.x == -1
+                        and next_part.y == -1
+                        or last_part.y == -1
+                        and next_part.x == -1
+                    ):
+                        self.draw_data.append((self.surfaces["body_tl"], rect))
+                    elif (
+                        last_part.x == -1
+                        and next_part.y == 1
+                        or last_part.y == 1
+                        and next_part.x == -1
+                    ):
+                        self.draw_data.append((self.surfaces["body_bl"], rect))
+                    elif (
+                        last_part.x == 1
+                        and next_part.y == -1
+                        or last_part.y == -1
+                        and next_part.x == 1
+                    ):
+                        self.draw_data.append((self.surfaces["body_tr"], rect))
+                    elif (
+                        last_part.x == 1
+                        and next_part.y == 1
+                        or last_part.y == 1
+                        and next_part.x == 1
+                    ):
+                        self.draw_data.append((self.surfaces["body_br"], rect))
 
     def draw(self):
         for surf, rect in self.draw_data:
