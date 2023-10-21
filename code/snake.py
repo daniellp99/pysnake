@@ -14,6 +14,7 @@ class Snake:
         self.surfaces = self.import_surfs()
         self.draw_data = []
         self.head_surf = self.surfaces["head_right"]
+        self.tail_surf = self.surfaces["tail_left"]
 
     def import_surfs(self):
         surf_dict = {}
@@ -44,6 +45,7 @@ class Snake:
             self.has_eaten = False
 
         self.update_head()
+        self.update_tail()
         self.update_body()
 
     def update_head(self):
@@ -57,6 +59,17 @@ class Snake:
         elif head_relation == pygame.Vector2(0, 1):
             self.head_surf = self.surfaces["head_up"]
 
+    def update_tail(self):
+        tail_relation = self.body[-2] - self.body[-1]
+        if tail_relation == pygame.Vector2(-1, 0):
+            self.tail_surf = self.surfaces["tail_right"]
+        elif tail_relation == pygame.Vector2(1, 0):
+            self.tail_surf = self.surfaces["tail_left"]
+        elif tail_relation == pygame.Vector2(0, -1):
+            self.tail_surf = self.surfaces["tail_down"]
+        elif tail_relation == pygame.Vector2(0, 1):
+            self.tail_surf = self.surfaces["tail_up"]
+
     def update_body(self):
         self.draw_data = []
         for index, part in enumerate(self.body):
@@ -66,16 +79,16 @@ class Snake:
 
             if index == 0:
                 self.draw_data.append((self.head_surf, rect))
+            elif index == len(self.body) - 1:
+                self.draw_data.append((self.tail_surf, rect))
+            else:
+                last_part = self.body[index + 1] - part
+                next_part = self.body[index - 1] - part
+                if last_part.x == next_part.x:
+                    self.draw_data.append((self.surfaces["body_horizontal"], rect))
+                elif last_part.y == next_part.y:
+                    self.draw_data.append((self.surfaces["body_vertical"], rect))
 
     def draw(self):
-        for point in self.body:
-            rect = pygame.Rect(
-                point.x * CELL_SIZE,
-                point.y * CELL_SIZE,
-                CELL_SIZE,
-                CELL_SIZE,
-            )
-            pygame.draw.rect(self.display_surface, "red", rect)
-
         for surf, rect in self.draw_data:
             self.display_surface.blit(surf, rect)
