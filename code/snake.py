@@ -15,6 +15,7 @@ class Snake:
         self.draw_data = []
         self.head_surf = self.surfaces["head_right"]
         self.tail_surf = self.surfaces["tail_left"]
+        self.update_body()
 
     def import_surfs(self):
         surf_dict = {}
@@ -30,6 +31,10 @@ class Snake:
             pygame.Vector2(START_COL - col, START_ROW) for col in range(START_LENGTH)
         ]
         self.direction = pygame.Vector2(1, 0)
+
+        self.update_head()
+        self.update_tail()
+        self.update_body()
 
     def move(self):
         if not self.has_eaten:
