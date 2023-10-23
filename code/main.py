@@ -5,6 +5,8 @@ from settings import (
     DARK_GREEN,
     LIGHT_GREEN,
     ROWS,
+    SHADOW_OPACITY,
+    SHADOW_SIZE,
     WINDOW_HEIGHT,
     WINDOW_WIDTH,
     exit,
@@ -42,6 +44,26 @@ class Main:
         self.display_surface.fill(LIGHT_GREEN)
         for rect in self.bg_rectangles:
             pygame.draw.rect(self.display_surface, DARK_GREEN, rect)
+
+    def draw_shadows(self):
+        shadow_surf = pygame.Surface(self.display_surface.get_size())
+        shadow_surf.fill((0, 255, 0))
+        shadow_surf.set_colorkey((0, 255, 0))
+
+        # surfaces
+        shadow_surf.blit(
+            self.apple.scaled_surface, self.apple.scaled_rect.topleft + SHADOW_SIZE
+        )
+        for surf, rect in self.snake.draw_data:
+            shadow_surf.blit(surf, rect.topleft + SHADOW_SIZE)
+
+        mask = pygame.mask.from_surface(shadow_surf)
+        mask.invert()
+        shadow_surf = mask.to_surface()
+        shadow_surf.set_colorkey((255, 255, 255))
+        shadow_surf.set_alpha(SHADOW_OPACITY)
+
+        self.display_surface.blit(shadow_surf, (0, 0))
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -95,6 +117,7 @@ class Main:
             self.collision()
             # drawing
             self.draw_bg()
+            self.draw_shadows()
             self.snake.draw()
             self.apple.draw()
             pygame.display.update()
