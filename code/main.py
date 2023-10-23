@@ -10,6 +10,7 @@ from settings import (
     WINDOW_HEIGHT,
     WINDOW_WIDTH,
     exit,
+    join,
     pygame,
 )
 from snake import Snake
@@ -39,6 +40,12 @@ class Main:
         self.update_event = pygame.event.custom_type()
         pygame.time.set_timer(self.update_event, 200)
         self.game_active = False
+
+        # audio
+        self.crunch_sound = pygame.mixer.Sound(join("audio", "crunch.wav"))
+        self.bg_sound = pygame.mixer.Sound(join("audio", "Arcade.ogg"))
+        self.bg_sound.set_volume(0.5)
+        self.bg_sound.play(-1)
 
     def draw_bg(self):
         self.display_surface.fill(LIGHT_GREEN)
@@ -90,6 +97,7 @@ class Main:
         if self.snake.body[0] == self.apple.pos:
             self.snake.has_eaten = True
             self.apple.set_pos()
+            self.crunch_sound.play()
         # game over
         if (
             self.snake.body[0] in self.snake.body[1:]
