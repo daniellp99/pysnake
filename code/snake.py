@@ -1,4 +1,7 @@
 from os import walk
+from typing import Dict, List, Tuple
+
+from pygame import Rect
 from settings import CELL_SIZE, START_COL, START_LENGTH, START_ROW, pygame, join
 
 
@@ -12,7 +15,7 @@ class Snake:
         self.has_eaten = False
         # graphics
         self.surfaces = self.import_surfs()
-        self.draw_data = []
+        self.draw_data: List[Tuple[Dict, Rect]] = []
         self.head_surf = self.surfaces["head_right"]
         self.tail_surf = self.surfaces["tail_left"]
         self.update_body()
