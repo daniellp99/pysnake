@@ -20,6 +20,13 @@ class Apple:
         self.surface_image = pygame.image.load(
             join("graphics", "apple.png")
         ).convert_alpha()
+        self.scaled_surface = self.surface_image.copy()
+        self.scaled_rect = self.scaled_surface.get_rect(
+            center=(
+                self.pos.x * CELL_SIZE + CELL_SIZE / 2,
+                self.pos.y * CELL_SIZE + CELL_SIZE / 2,
+            )
+        )
 
     def set_pos(self):
         available_pos = [
